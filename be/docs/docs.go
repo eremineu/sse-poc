@@ -49,6 +49,29 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/user": {
+            "get": {
+                "description": "Returns hardcoded user information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get user information",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {

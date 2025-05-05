@@ -78,6 +78,21 @@ paths:
       summary: Subscribe to the SSE stream
       tags:
       - stream
+  /user:
+    get:
+      consumes:
+      - application/json
+      description: Returns hardcoded user information
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Get user information
+      tags:
+      - user
 schemes:
 - http
 swagger: "2.0"

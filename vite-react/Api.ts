@@ -324,4 +324,22 @@ export class Api<
         ...params,
       }),
   };
+  user = {
+    /**
+     * @description Returns hardcoded user information
+     *
+     * @tags user
+     * @name UserList
+     * @summary Get user information
+     * @request GET:/user
+     */
+    userList: (params: RequestParams = {}) =>
+      this.request<ModelsUser, any>({
+        path: `/user`,
+        method: "GET",
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+  };
 }

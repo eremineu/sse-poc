@@ -32,6 +32,9 @@ func SetupRoutes() *gin.Engine {
 	// SSE stream endpoint
 	r.GET("/stream", handler.GinStreamHandler)
 	
+	// User information endpoint
+	r.GET("/user", handler.GetUserInfo)
+	
 	// Swagger documentation
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	

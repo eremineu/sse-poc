@@ -1,6 +1,6 @@
 import { useSSE } from "../../hooks/useSSE";
 import type { ModelsMessage } from "../../../Api";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import {
 	flexRender,
@@ -8,62 +8,23 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
-import type { ColumnDef, Row, SortingState } from "@tanstack/react-table";
+import { streamColumns } from "./streamColumns";
 
 export const Stream = () => {
 	const [tableData, setTableData] = useState<ModelsMessage[]>([]);
 	const parentRef = useRef<HTMLDivElement>(null);
 
-	const { data, stop, restart } = useSSE<ModelsMessage[]>(
+	const { data, stop, restart, status } = useSSE<ModelsMessage[]>(
 		"http://localhost:8080/stream",
-	);
-
-	const columns = useMemo<Array<ColumnDef<ModelsMessage>>>(
-		() => [
-			{
-				accessorKey: "id",
-				header: "ID",
-				size: 60,
-			},
-			{
-				accessorKey: "text",
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorFn: (row) => row.user?.email,
-				id: "email",
-				cell: (info) => info.getValue(),
-				header: () => <span>Email</span>,
-			},
-			{
-				accessorKey: "user.username",
-				header: () => "Username",
-				size: 50,
-			},
-			{
-				accessorKey: "user.nickname",
-				header: () => <span>Nickname</span>,
-				size: 50,
-			},
-			{
-				accessorKey: "user.id",
-				header: "User ID",
-			},
-			{
-				accessorKey: "user.labels",
-				header: "User Labels",
-				size: 80,
-			},
-		],
-		[],
 	);
 
 	const table = useReactTable({
 		data: tableData,
-		columns,
+		columns: streamColumns,
 		getCoreRowModel: getCoreRowModel(),
 		getSortedRowModel: getSortedRowModel(),
 		debugTable: true,
+		enableColumnResizing: true,
 	});
 
 	const { rows } = table.getRowModel();
@@ -85,14 +46,8 @@ export const Stream = () => {
 	};
 
 	return (
-		<>
-			<button type="button" onClick={handleStop}>
-				Stop
-			</button>
-			<button type="button" onClick={restart}>
-				Restart
-			</button>
-			<div ref={parentRef} className="h-[500px] overflow-y-auto">
+		<div className="container mx-auto">
+			<div ref={parentRef} className="h-[800px] overflow-y-auto">
 				<div
 					style={{
 						height: `${virtualizer.getTotalSize()}px`,
@@ -142,6 +97,15 @@ export const Stream = () => {
 					</table>
 				</div>
 			</div>
-		</>
+			<div className="flex gap-2 mt-4">
+				<button type="button" className="btn btn-outline" onClick={handleStop}>
+					Stop
+				</button>
+				<button type="button" className="btn btn-outline" onClick={restart}>
+					Restart
+				</button>
+				<span className="text-sm">{status}</span>
+			</div>
+		</div>
 	);
 };
