@@ -1,0 +1,26 @@
+#!/bin/bash
+apiUrl="$1"
+
+apiDocsFile="./libs/api/src/lib/config/api.json"
+
+apiOutputDir="./libs/api/src/lib/api"
+
+rm -rf "$apiOutputDir"
+
+curl "$apiUrl" -o "$apiDocsFile"
+
+node ./libs/api/src/lib/filterApiDocs.js "$apiDocsFile"
+
+echo ">> Generating shemas into src/api"
+yarn openapi-generator-cli batch libs/api/src/lib/config/*.yml
+
+node ./libs/api/src/lib/processModelFile.js "$apiOutputDir/models/index.ts"
+
+echo ">> removing indexes"
+rm "$apiOutputDir/index.ts"
+rm "$apiOutputDir/apis/index.ts"
+
+node ./libs/api/src/lib/generateApiFactoryClass.js "$apiOutputDir"
+
+echo ">> removing downloaded JSON files"
+rm ./libs/api/src/lib/config/*.json
