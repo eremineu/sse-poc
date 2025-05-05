@@ -12,10 +12,11 @@ import { streamColumns } from './streamColumns'
 
 export const Stream = () => {
   const [tableData, setTableData] = useState<ModelsMessage[]>([])
+  const [limit, setLimit] = useState(10)
   const parentRef = useRef<HTMLDivElement>(null)
 
   const { data, stop, restart, status } = useSSE<ModelsMessage[]>(
-    'http://localhost:8080/stream'
+    `http://localhost:8080/stream?user_id=123e4567-e89b-12d3-a456-426614174000&limit=${limit}`
   )
 
   const table = useReactTable({
@@ -43,6 +44,11 @@ export const Stream = () => {
 
   const handleStop = () => {
     stop()
+  }
+
+  const handleChangeLimit = (value: number) => {
+    setLimit(value)
+    restart()
   }
 
   return (
@@ -105,6 +111,17 @@ export const Stream = () => {
           Restart
         </button>
         <span className='text-sm'>{status}</span>
+      </div>
+      <div className='flex gap-2 mt-4'>
+        <select
+          className='select select-bordered'
+          value={limit}
+          onChange={(e) => handleChangeLimit(Number(e.target.value))}
+        >
+          <option value={10}>10</option>
+          <option value={100}>100</option>
+          <option value={1000}>1000</option>
+        </select>
       </div>
     </div>
   )

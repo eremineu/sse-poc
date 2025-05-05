@@ -26,10 +26,8 @@ func DefaultConfig() Config {
 }
 
 func Start(cfg Config) error {
-	// Get the Gin router
 	r := router.SetupRoutes()
 
-	// Configure http server
 	server := &http.Server{
 		Addr:              ":" + cfg.Port,
 		Handler:           r,

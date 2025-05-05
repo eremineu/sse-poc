@@ -17,7 +17,6 @@ import (
 // @Success 200 {object} models.User
 // @Router /user [get]
 func GetUserInfo(c *gin.Context) {
-	// Create a hardcoded user with sample data
 	id, _ := uuid.Parse("550e8400-e29b-41d4-a716-446655440000")
 	labelID, _ := uuid.Parse("550e8400-e29b-41d4-a716-446655440001")
 	

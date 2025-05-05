@@ -22,21 +22,25 @@ import (
 // @Success 200 {array} models.Message
 // @Router /stream [get]
 func StreamHandler(c *gin.Context) {
-	// Set necessary headers for SSE
+	// Get query parameters
+	userID := c.Query("user_id")
+	limitStr := c.DefaultQuery("limit", "10") 
+	
+	// Parse limitStr to int (ignoring error for simplicity)
+	limit := 10
+	fmt.Sscanf(limitStr, "%d", &limit)
+	
 	c.Writer.Header().Set("Content-Type", "text/event-stream")
 	c.Writer.Header().Set("Cache-Control", "no-cache")
 	c.Writer.Header().Set("Connection", "keep-alive")
 	c.Writer.Header().Set("Transfer-Encoding", "chunked")
 	c.Writer.Header().Set("X-Accel-Buffering", "no")
 	
-	// Ensure that the writer supports flushing
 	c.Writer.Flush()
 	
-	// Set status code to 200 before writing body
 	c.Status(http.StatusOK)
 	
-	// Send lots of data every 100ms
-	ticker := time.NewTicker(100 * time.Millisecond)
+	ticker := time.NewTicker(1 * time.Millisecond)
 	defer ticker.Stop()
 	
 	// Dummy data counter
@@ -44,6 +48,9 @@ func StreamHandler(c *gin.Context) {
 	
 	// Create a channel to detect when the client disconnects
 	clientGone := c.Request.Context().Done()
+
+	log.Println("limit", limit)
+	log.Println("userID", userID)
 	
 	// Loop until client disconnects
 	for {
@@ -54,6 +61,10 @@ func StreamHandler(c *gin.Context) {
 		case t := <-ticker.C:
 			counter++
 			
+			if counter > limit {
+				ticker.Reset(500 * time.Millisecond)
+			}
+			
 			// Create an array of messages (currently just one message for demo)
 			msgs := []models.Message{
 				{
@@ -61,7 +72,7 @@ func StreamHandler(c *gin.Context) {
 					Text:      fmt.Sprintf("Message #%d", counter),
 					Timestamp: t,
 					User: models.User{
-						ID: uuid.New(),
+						ID: getUserID(userID), // Handle empty userID case
 						Username: "John Doe",
 						Email: "john.doe@example.com",
 						Password: "password123",
@@ -89,4 +100,16 @@ func StreamHandler(c *gin.Context) {
 			c.Writer.Flush()
 		}
 	}
+}
+
+func getUserID(userIDStr string) uuid.UUID {
+	if userIDStr == "" {
+		return uuid.New()
+	}
+	
+	id, err := uuid.Parse(userIDStr)
+	if err != nil {
+		return uuid.New()
+	}
+	return id
 } 
