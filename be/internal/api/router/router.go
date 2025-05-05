@@ -30,7 +30,7 @@ func SetupRoutes() *gin.Engine {
 	})
 	
 	// SSE stream endpoint
-	r.GET("/stream", handler.GinStreamHandler)
+	r.GET("/stream", handler.StreamHandler)
 	
 	// User information endpoint
 	r.GET("/user", handler.GetUserInfo)

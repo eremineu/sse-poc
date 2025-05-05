@@ -1,142 +1,128 @@
 {
-    "schemes": [
-        "http"
-    ],
-    "swagger": "2.0",
-    "info": {
-        "description": "Server-Sent Events Gadget Backend API",
-        "title": "SSE Gadget API",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "API Support",
-            "url": "http://www.swagger.io/support",
-            "email": "support@swagger.io"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
-        "version": "1.0"
-    },
-    "host": "localhost:8080",
-    "basePath": "/",
-    "paths": {
-        "/stream": {
-            "get": {
-                "description": "Establishes an SSE connection and receives real-time updates",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "text/event-stream"
-                ],
-                "tags": [
-                    "stream"
-                ],
-                "summary": "Subscribe to the SSE stream",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Message"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/user": {
-            "get": {
-                "description": "Returns hardcoded user information",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "user"
-                ],
-                "summary": "Get user information",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.User"
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "definitions": {
-        "models.Label": {
-            "description": "A tag or category that can be assigned to users",
-            "type": "object",
-            "properties": {
-                "color": {
-                    "type": "string",
-                    "example": "#FF5733"
-                },
-                "id": {
-                    "type": "string",
-                    "format": "uuid",
-                    "example": "550e8400-e29b-41d4-a716-446655440000"
-                },
-                "name": {
-                    "type": "string",
-                    "example": "admin"
-                }
-            }
-        },
-        "models.Message": {
-            "description": "A message sent through the SSE stream",
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string",
-                    "format": "uuid",
-                    "example": "550e8400-e29b-41d4-a716-446655440000"
-                },
-                "text": {
-                    "type": "string",
-                    "example": "Hello, world!"
-                },
-                "timestamp": {
-                    "type": "string",
-                    "format": "date-time",
-                    "example": "2023-01-01T12:00:00Z"
-                },
-                "user": {
-                    "$ref": "#/definitions/models.User"
-                }
-            }
-        },
-        "models.User": {
-            "description": "User account information",
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "labels": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.Label"
-                    }
-                },
-                "nickname": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        }
-    }
+	"schemes": ["http"],
+	"swagger": "2.0",
+	"info": {
+		"description": "Server-Sent Events Gadget Backend API",
+		"title": "SSE Gadget API",
+		"termsOfService": "http://swagger.io/terms/",
+		"contact": {
+			"name": "API Support",
+			"url": "http://www.swagger.io/support",
+			"email": "support@swagger.io"
+		},
+		"license": {
+			"name": "Apache 2.0",
+			"url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+		},
+		"version": "1.0"
+	},
+	"host": "localhost:8080",
+	"basePath": "/",
+	"paths": {
+		"/stream": {
+			"get": {
+				"description": "Establishes an SSE connection and receives real-time updates",
+				"consumes": ["application/json"],
+				"produces": ["text/event-stream"],
+				"tags": ["stream"],
+				"summary": "Subscribe to the SSE stream",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/models.Message"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/user": {
+			"get": {
+				"description": "Returns hardcoded user information",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"tags": ["user"],
+				"summary": "Get user information",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/models.User"
+						}
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"models.Label": {
+			"description": "A tag or category that can be assigned to users",
+			"type": "object",
+			"properties": {
+				"color": {
+					"type": "string",
+					"example": "#FF5733"
+				},
+				"id": {
+					"type": "string",
+					"format": "uuid",
+					"example": "550e8400-e29b-41d4-a716-446655440000"
+				},
+				"name": {
+					"type": "string",
+					"example": "admin"
+				}
+			}
+		},
+		"models.Message": {
+			"description": "A message sent through the SSE stream",
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "string",
+					"format": "uuid",
+					"example": "550e8400-e29b-41d4-a716-446655440000"
+				},
+				"text": {
+					"type": "string",
+					"example": "Hello, world!"
+				},
+				"timestamp": {
+					"type": "string",
+					"format": "date-time",
+					"example": "2023-01-01T12:00:00Z"
+				},
+				"user": {
+					"$ref": "#/definitions/models.User"
+				}
+			}
+		},
+		"models.User": {
+			"description": "User account information",
+			"type": "object",
+			"properties": {
+				"email": {
+					"type": "string"
+				},
+				"id": {
+					"type": "string"
+				},
+				"labels": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/models.Label"
+					}
+				},
+				"nickname": {
+					"type": "string"
+				},
+				"username": {
+					"type": "string"
+				}
+			}
+		}
+	}
 }
