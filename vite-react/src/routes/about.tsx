@@ -1,6 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { StreamPaginated } from "../modules/stream/streamPaginated";
+import { createFileRoute } from '@tanstack/react-router'
+import { Pagination } from '../modules/user/pagination'
 
-export const Route = createFileRoute("/about")({
-	component: StreamPaginated,
-});
+export const Route = createFileRoute('/about')({
+  component: Pagination
+})
