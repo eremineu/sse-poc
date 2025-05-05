@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "bradlc.vscode-tailwindcss",
+    "wayou.vscode-todo-highlight",
+    "graphql.vscode-graphql",
+    "graphql.vscode-graphql-syntax",
+    "editorconfig.editorconfig"
+  ]
+}
