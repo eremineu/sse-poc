@@ -1,5 +1,6 @@
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 export const Route = createRootRoute({
   component: () => (
@@ -16,8 +17,8 @@ export const Route = createRootRoute({
           </Link>
         </li>
         <li>
-          <Link to='/about' className='[&.active]:text-accent'>
-            About
+          <Link to='/pagination' className='[&.active]:text-accent'>
+            Pagination
           </Link>
         </li>
       </ul>
@@ -25,6 +26,7 @@ export const Route = createRootRoute({
         <Outlet />
       </div>
       <TanStackRouterDevtools />
+      <ReactQueryDevtools />
     </>
   )
 })

@@ -1,4 +1,4 @@
-# SSE PoC Backend
+go run cmd/sse-server/main.go# SSE PoC Backend
 
 ## Setup
 
@@ -10,7 +10,7 @@
 
 ```bash
 go mod download  # Install dependencies
-go run main.go   # Start the server
+go run cmd/sse-server/main.go    # Start the server
 ```
 
 ## Swagger Documentation

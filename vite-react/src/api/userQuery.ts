@@ -11,7 +11,7 @@ export const getUser = async () => {
 
   const user = await api.user.userList()
 
-  return await user.data
+  return user.data
 }
 
 export const useUserQuery = () => {

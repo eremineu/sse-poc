@@ -12,8 +12,8 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SseImport } from './routes/sse'
+import { Route as PaginationImport } from './routes/pagination'
 import { Route as MainImport } from './routes/main'
-import { Route as AboutImport } from './routes/about'
 
 // Create/Update Routes
 
@@ -23,15 +23,15 @@ const SseRoute = SseImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const MainRoute = MainImport.update({
-  id: '/main',
-  path: '/main',
+const PaginationRoute = PaginationImport.update({
+  id: '/pagination',
+  path: '/pagination',
   getParentRoute: () => rootRoute,
 } as any)
 
-const AboutRoute = AboutImport.update({
-  id: '/about',
-  path: '/about',
+const MainRoute = MainImport.update({
+  id: '/main',
+  path: '/main',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -39,18 +39,18 @@ const AboutRoute = AboutImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
-      parentRoute: typeof rootRoute
-    }
     '/main': {
       id: '/main'
       path: '/main'
       fullPath: '/main'
       preLoaderRoute: typeof MainImport
+      parentRoute: typeof rootRoute
+    }
+    '/pagination': {
+      id: '/pagination'
+      path: '/pagination'
+      fullPath: '/pagination'
+      preLoaderRoute: typeof PaginationImport
       parentRoute: typeof rootRoute
     }
     '/sse': {
@@ -66,42 +66,42 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  '/about': typeof AboutRoute
   '/main': typeof MainRoute
+  '/pagination': typeof PaginationRoute
   '/sse': typeof SseRoute
 }
 
 export interface FileRoutesByTo {
-  '/about': typeof AboutRoute
   '/main': typeof MainRoute
+  '/pagination': typeof PaginationRoute
   '/sse': typeof SseRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/about': typeof AboutRoute
   '/main': typeof MainRoute
+  '/pagination': typeof PaginationRoute
   '/sse': typeof SseRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/about' | '/main' | '/sse'
+  fullPaths: '/main' | '/pagination' | '/sse'
   fileRoutesByTo: FileRoutesByTo
-  to: '/about' | '/main' | '/sse'
-  id: '__root__' | '/about' | '/main' | '/sse'
+  to: '/main' | '/pagination' | '/sse'
+  id: '__root__' | '/main' | '/pagination' | '/sse'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  AboutRoute: typeof AboutRoute
   MainRoute: typeof MainRoute
+  PaginationRoute: typeof PaginationRoute
   SseRoute: typeof SseRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  AboutRoute: AboutRoute,
   MainRoute: MainRoute,
+  PaginationRoute: PaginationRoute,
   SseRoute: SseRoute,
 }
 
@@ -115,16 +115,16 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/about",
         "/main",
+        "/pagination",
         "/sse"
       ]
     },
-    "/about": {
-      "filePath": "about.tsx"
-    },
     "/main": {
       "filePath": "main.tsx"
+    },
+    "/pagination": {
+      "filePath": "pagination.tsx"
     },
     "/sse": {
       "filePath": "sse.tsx"
